@@ -36,8 +36,7 @@ Tasks:
 1. Evaluate whether the given macro phase ("{macro_phase}") is accurate based on the data and profile.
 2. Highlight any inconsistencies or indicators suggesting a different phase.
 3. Identify early warning signs or opportunities.
-4. Forecast macroeconomic trends for the next 3–6 months.
-5. Suggest one speculative move, if applicable
+4. Forecast macroeconomic trends for the next 3–6 months, with an speculative opportunities.
 
 Be precise and explain your reasoning.
 """

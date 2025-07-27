@@ -37,6 +37,7 @@ Tasks:
 2. Highlight any inconsistencies or indicators suggesting a different phase.
 3. Identify early warning signs or opportunities.
 4. Forecast macroeconomic trends for the next 3–6 months.
+5. Suggest one speculative move, if applicable
 
 Be precise and explain your reasoning.
 """

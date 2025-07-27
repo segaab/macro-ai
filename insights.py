@@ -1,6 +1,7 @@
 import os
 import google.generativeai as genai
 import pandas as pd
+from market_object import market_to_ticker
 
 # Configure Gemini API
 genai.configure(api_key="AIzaSyCLsb1T1JPzcmfc3zP6dALRAnH0sB22lvM")
@@ -37,7 +38,7 @@ Tasks:
 2. Highlight any inconsistencies or indicators suggesting a different phase.
 3. Identify early warning signs or opportunities.
 4. Forecast macroeconomic trends for the next 3–6 months.
-5. Suggest one speculative move, if applicable
+5. Suggest one speculative move, if applicable, with a list of futures tickers. Choose from the following list: {market_to_ticker}
 
 Be precise and explain your reasoning.
 """

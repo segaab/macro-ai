@@ -4,9 +4,12 @@ import streamlit as st
 import pandas as pd
 from data_fetch import fetch_data
 from phase_logic import identify_phase
-from insights import generate_insights
+from insights import generate_macro_insight, generate_insights, parse_speculation_output, evaluate_speculation_playout
 
-# App title
+# NOTE: Import or define this function for speculation progress analysis
+# from some_module import analyze_speculation_progress
+
+
 st.set_page_config(layout="wide")
 st.title("🧭 Macro Phase Identifier Dashboard")
 
@@ -27,10 +30,42 @@ st.subheader("📊 Macro Phase Assessment")
 macro_phase = identify_phase(two_years_df)
 st.write(f"🧠 Inferred Macro Phase: **{macro_phase}**")
 
-# AI Insights
-st.subheader("🤖 AI Insights on Current Macro Conditions")
-ai_insights = generate_insights(two_years_df, macro_phase)
-st.write(ai_insights)
+if 'insights_text' not in st.session_state:
+    st.session_state.insights_text = None
+
+# Generate AI insights button
+if st.button("💡 Generate AI Insights"):
+    insights_text = generate_insights(two_years_df, macro_phase)
+    st.session_state.insights_text = insights_text.text.strip()
+
+# Show AI insights if available
+if st.session_state.insights_text:
+    st.subheader("🤖 AI Insights on Current Macro Conditions")
+    st.write(st.session_state.insights_text)
+
+    st.markdown("----")
+    st.subheader("🔍 Monitor Suggested Speculative Plays")
+
+    # Show the speculative trades tracking button
+    if st.button("📈 Track Speculative Trades"):
+        # Parse output once here
+        parsed_info = generate_macro_insight(two_years_df, macro_phase)
+        print('Logs:', parsed_info)
+        # Extract separate lists
+        def remove_asterisk_dash(text):
+            return text.replace("- ****", "").strip()
+        tickers = remove_asterisk_dash([s["Ticker"] for s in parsed_info if s["Ticker"]])
+        cot_names = remove_asterisk_dash([s["COT Name"] for s in parsed_info if s["COT Name"]])
+        speculation = [s["Speculation"] for s in parsed_info if s["Speculation"]]
+        #suggestions = ', '.join(str(item) for item in parsed_info)
+
+        # Check if analyze_speculation_progress function exists
+        if 'evaluate_speculation_playout' in globals():
+            tracking_result = evaluate_speculation_playout(speculation, tickers, cot_names)
+            st.subheader("📊 Speculation Monitoring Result")
+            st.write(tracking_result)
+        else:
+            st.warning("⚠️ Function 'analyze_speculation_progress' is not implemented or imported.")
 
 # Download button
 csv = two_years_df.to_csv(index=False).encode('utf-8')

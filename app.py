@@ -54,8 +54,10 @@ if st.session_state.insights_text:
         # Extract separate lists
         def remove_asterisk_dash(text):
             return text.replace("- ****", "").strip()
-        tickers = remove_asterisk_dash([s["Ticker"] for s in parsed_info if s["Ticker"]])
-        cot_names = remove_asterisk_dash([s["COT Name"] for s in parsed_info if s["COT Name"]])
+        tickers = [s["Ticker"] for s in parsed_info if s["Ticker"]]
+        ticker = remove_asterisk_dash(str(tickers))
+        cot_names = [s["COT Name"] for s in parsed_info if s["COT Name"]]
+        cot_name = remove_asterisk_dash(str(cot_names))
         speculation = [s["Speculation"] for s in parsed_info if s["Speculation"]]
         #suggestions = ', '.join(str(item) for item in parsed_info)
 
